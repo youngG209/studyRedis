@@ -1,9 +1,8 @@
-package com.studyredis.Entity;
+package com.studyredis.member.Entity;
 
 import javax.persistence.GeneratedValue;
 import lombok.Getter;
 import lombok.ToString;
-import org.hibernate.annotations.GeneratorType;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.index.Indexed;

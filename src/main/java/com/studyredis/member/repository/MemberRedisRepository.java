@@ -1,6 +1,6 @@
-package com.studyredis.repository;
+package com.studyredis.member.repository;
 
-import com.studyredis.Entity.Member;
+import com.studyredis.member.Entity.Member;
 import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
 

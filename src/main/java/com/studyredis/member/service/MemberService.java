@@ -1,7 +1,7 @@
-package com.studyredis.service;
+package com.studyredis.member.service;
 
-import com.studyredis.Entity.Member;
-import com.studyredis.repository.MemberRedisRepository;
+import com.studyredis.member.Entity.Member;
+import com.studyredis.member.repository.MemberRedisRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

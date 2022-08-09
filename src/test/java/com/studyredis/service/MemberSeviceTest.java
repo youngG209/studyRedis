@@ -1,8 +1,8 @@
 package com.studyredis.service;
 
-import com.studyredis.Entity.Member;
-import com.studyredis.repository.MemberRedisRepository;
-import java.util.concurrent.TimeUnit;
+import com.studyredis.member.Entity.Member;
+import com.studyredis.member.repository.MemberRedisRepository;
+import com.studyredis.member.service.MemberService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
