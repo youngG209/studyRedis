@@ -24,10 +24,10 @@ public class RedisRepositoryConfig {
 
 	private final RedisProperties redisProperties;
 
-	private final int DEFAULT_EXPIRE_SECONDS = 1;
+	private static final int DEFAULT_EXPIRE_SECONDS = 10;
 
-	private final String LIST = "list";
-	private final int LIST_EXPIRE_SECONDS = 10;
+	private static final String LIST = "list";
+	private static final int LIST_EXPIRE_SECONDS = 20;
 
 //	RedisConnectionFactory 인터페이스를 통해 LettuceConnectionFactory를 생성하여 반환
 	@Bean
