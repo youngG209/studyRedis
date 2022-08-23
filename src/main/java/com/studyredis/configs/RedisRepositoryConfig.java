@@ -1,5 +1,8 @@
 package com.studyredis.configs;
 
+import com.studyredis.pubsub.publisher.service.MessagePublisher;
+import com.studyredis.pubsub.publisher.service.impl.RedisMessagePublisher;
+import com.studyredis.pubsub.subscribe.service.RedisMessageSubscriber;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +16,9 @@ import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.listener.ChannelTopic;
+import org.springframework.data.redis.listener.RedisMessageListenerContainer;
+import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
@@ -68,6 +74,30 @@ public class RedisRepositoryConfig {
 		return RedisCacheManager.RedisCacheManagerBuilder.fromConnectionFactory(connectionFactory)
 			.cacheDefaults(configuration)
 			.withInitialCacheConfigurations(cacheConfigurations).build();
+	}
+
+	@Bean
+	MessageListenerAdapter messageListenerAdapter() {
+		return new MessageListenerAdapter(new RedisMessageSubscriber());
+	}
+
+	@Bean
+	RedisMessageListenerContainer redisContainer() {
+	    RedisMessageListenerContainer container
+	      = new RedisMessageListenerContainer();
+	    container.setConnectionFactory(redisConnectionFactory());
+	    container.addMessageListener(messageListenerAdapter(), topic());
+	    return container;
+	}
+
+	@Bean
+	MessagePublisher redisPublisher() {
+	    return new RedisMessagePublisher(redisTemplate(), topic());
+	}
+
+	@Bean
+	ChannelTopic topic() {
+	    return new ChannelTopic("messageQueue");
 	}
 
 }
