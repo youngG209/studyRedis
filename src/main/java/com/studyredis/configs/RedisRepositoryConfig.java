@@ -6,8 +6,15 @@ import com.studyredis.pubsub.subscribe.service.RedisMessageSubscriber;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import org.redisson.Redisson;
+import org.redisson.api.RedissonClient;
+import org.redisson.client.codec.StringCodec;
+import org.redisson.config.Config;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.CacheKeyPrefix;
@@ -22,6 +29,7 @@ import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Configuration
@@ -100,4 +108,15 @@ public class RedisRepositoryConfig {
 	    return new ChannelTopic("messageQueue");
 	}
 
+	@Bean
+	public RedissonClient redissonClient() {
+		Config config = new Config();
+		config.setCodec(new StringCodec());
+		String redisUrl = "redis://" + redisProperties.getHost() + ":" + redisProperties.getPort();
+		config.useSingleServer()
+			.setAddress(
+				redisUrl);
+		System.out.println("create redisUrl : " + redisUrl);
+		return Redisson.create(config);
+	}
 }
